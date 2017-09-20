@@ -11,31 +11,31 @@ namespace BPD.FACTA.Procesor
     public class FACTAProcesor
     {
 
-        private readonly IFACTADataProvider factaDataProvider;
-        private readonly IFACTAParser factaParser;
-        private readonly IFACTAFileGenerator factaFileGenerator;
+        private readonly IFACTADataProvider FACTADataProvider;
+        private readonly IFACTAParser FACTAParser;
+        private readonly IFACTAFileGenerator FACTAFileGenerator;
 
-        public FACTAProcesor(IFACTADataProvider factaDataProvider, IFACTAParser factaParser, IFACTAFileGenerator factaFileGenerator)
+        public FACTAProcesor(IFACTADataProvider FACTADataProvider, IFACTAParser FACTAParser, IFACTAFileGenerator FACTAFileGenerator)
         {
-            if (factaDataProvider == null)
+            if (FACTADataProvider == null)
                 throw new ArgumentNullException("IFACTADataProvider null reference");
 
-            if (factaParser == null)
+            if (FACTAParser == null)
                 throw new ArgumentNullException("IFACTAParser null reference");
 
-            if (factaFileGenerator == null)
+            if (FACTAFileGenerator == null)
                 throw new ArgumentNullException("IFACTAFileGenerator null reference");
 
-            this.factaDataProvider = factaDataProvider;
-            this.factaParser = factaParser;
-            this.factaFileGenerator = factaFileGenerator;
+            this.FACTADataProvider = FACTADataProvider;
+            this.FACTAParser = FACTAParser;
+            this.FACTAFileGenerator = FACTAFileGenerator;
         }
 
         public void ProcessFACTA()
         {
-            var FACTData = factaDataProvider.GetFACTAData();
-            var FACTRecords = factaParser.ParseData(FACTData);
-            factaFileGenerator.GenerateFile(FACTRecords);
+            var FACTData = FACTADataProvider.GetFACTAData();
+            var FACTRecords = FACTAParser.ParseData(FACTData);
+            FACTAFileGenerator.GenerateFile(FACTRecords);
         }
 
     }

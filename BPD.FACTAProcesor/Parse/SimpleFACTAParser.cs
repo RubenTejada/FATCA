@@ -17,6 +17,13 @@ namespace BPD.FACTA.Procesor
 
         public SimpleFACTAParser(IFACTAValidator FACTAValidator, IFACTAMapper FACTAMapper)
         {
+            if(FACTAValidator ==null)
+                throw new ArgumentNullException("IFACTAValidator null reference");
+
+            if (FACTAMapper == null)
+                throw new ArgumentNullException("IFACTAMapper null reference");
+
+
             this.FACTAValidator = FACTAValidator;
             this.FACTAMapper = FACTAMapper;
         }

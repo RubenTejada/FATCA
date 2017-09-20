@@ -8,6 +8,6 @@ namespace BPD.FACTA.Interfaces
 {
    public interface IFACTAValidator
     {
-        bool Validate(IEnumerable<string> FACTAData);
+        bool Validate(string[] FACTAData);
     }
 }
