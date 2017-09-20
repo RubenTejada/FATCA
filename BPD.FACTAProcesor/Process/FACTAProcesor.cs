@@ -17,6 +17,15 @@ namespace BPD.FACTA.Procesor
 
         public FACTAProcesor(IFACTADataProvider factaDataProvider, IFACTAParser factaParser, IFACTAFileGenerator factaFileGenerator)
         {
+            if (factaDataProvider == null)
+                throw new ArgumentNullException("IFACTADataProvider null reference");
+
+            if (factaParser == null)
+                throw new ArgumentNullException("IFACTAParser null reference");
+
+            if (factaFileGenerator == null)
+                throw new ArgumentNullException("IFACTAFileGenerator null reference");
+
             this.factaDataProvider = factaDataProvider;
             this.factaParser = factaParser;
             this.factaFileGenerator = factaFileGenerator;

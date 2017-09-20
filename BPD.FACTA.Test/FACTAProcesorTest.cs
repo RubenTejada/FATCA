@@ -1,35 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
-using BPD.FACTA.Procesor;
-using BPD.FACTA.Interfaces;
 using Moq;
+using BPD.FACTA.Interfaces;
+using BPD.FACTA.Domain;
+using BPD.FACTA.Procesor;
 
 
-namespace BPD.FACTA.Test
-{
+ 
     public class FACTAProcesorTest
     {
-
         [Fact]
-        public void Throws_ArgumentNullException_With_Null_IFACTADataProvider()
+        public void Throw_ArgumentNullException_On_IFACTADataProvider_Null_Constructor()
         {
-            //Arrange
-            var mockFACTADataProvider = new Moq.Mock<IFACTADataProvider>();            
-            var mockFACTAParser = new Moq.Mock<IFACTAParser>();
-            var mockFACTAFileGenerator = new Moq.Mock<IFACTAFileGenerator>();
-
-            //ACT
+            //Arrange            
+            var mockFACTAParser = new Mock<IFACTAParser>();
+            var mockFACTAFileGenerator = new Mock<IFACTAFileGenerator>();            
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => new FACTAProcesor(mockFACTADataProvider.Object, mockFACTAParser.Object, mockFACTAFileGenerator.Object));
-
-
+            Assert.Throws<ArgumentNullException>(() => new FACTAProcesor(null, mockFACTAParser.Object, mockFACTAFileGenerator.Object));
+            
         }
 
+    [Fact]
+    public void Throw_ArgumentNullException_On_IFACTAParser_Null_Constructor()
+    {
+        //Arrange
+        var mockDataProvider = new Mock<IFACTADataProvider>();        
+        var mockFACTAFileGenerator = new Mock<IFACTAFileGenerator>();
+
+        //Assert
+        Assert.Throws<ArgumentNullException>(() => new FACTAProcesor(mockDataProvider.Object, null , mockFACTAFileGenerator.Object));
 
     }
+
+
+    [Fact]
+    public void Throw_ArgumentNullException_On_IFACTAFileGenerator_Null_Constructor()
+    {
+        //Arrange
+        var mockDataProvider = new Mock<IFACTADataProvider>();
+        var mockFACTAParser = new Mock<IFACTAParser>();        
+
+        //Assert
+        Assert.Throws<ArgumentNullException>(() => new FACTAProcesor(mockDataProvider.Object, mockFACTAParser.Object, null));
+
+    }
+
+
 }
+
