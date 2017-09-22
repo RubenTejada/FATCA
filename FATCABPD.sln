@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPD.FACTA.Interfaces", "BPD.FACTA.Interfaces\BPD.FACTA.Interfaces.csproj", "{82DA4D09-79CC-4C31-8CD2-CB0C23FE3D11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPD.FATCA.Interfaces", "BPD.FACTA.Interfaces\BPD.FATCA.Interfaces.csproj", "{82DA4D09-79CC-4C31-8CD2-CB0C23FE3D11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPD.FACTA.Procesor", "BPD.FACTAProcesor\BPD.FACTA.Procesor.csproj", "{0A65360E-5019-42F4-BC41-8F284567925D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPD.FATCA.Procesor", "BPD.FACTAProcesor\BPD.FATCA.Procesor.csproj", "{0A65360E-5019-42F4-BC41-8F284567925D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPD.FACTA.Domain", "BPD.FACTA.Domain\BPD.FACTA.Domain.csproj", "{A212ABFA-2B0C-4BAD-8C86-F5B5EB82AC20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPD.FATCA.Domain", "BPD.FACTA.Domain\BPD.FATCA.Domain.csproj", "{A212ABFA-2B0C-4BAD-8C86-F5B5EB82AC20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPD.FACTA.Test", "BPD.FACTA.Test\BPD.FACTA.Test.csproj", "{25ECC5A9-6CB6-44B1-806F-C0A52F682388}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPD.FATCA.Test", "BPD.FACTA.Test\BPD.FATCA.Test.csproj", "{25ECC5A9-6CB6-44B1-806F-C0A52F682388}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPD.FACTA.Windows", "FACTABPD.Windows\BPD.FACTA.Windows.csproj", "{3CE61F22-7C84-4A23-AF20-108A196E7D3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{25ECC5A9-6CB6-44B1-806F-C0A52F682388}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25ECC5A9-6CB6-44B1-806F-C0A52F682388}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25ECC5A9-6CB6-44B1-806F-C0A52F682388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CE61F22-7C84-4A23-AF20-108A196E7D3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CE61F22-7C84-4A23-AF20-108A196E7D3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CE61F22-7C84-4A23-AF20-108A196E7D3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CE61F22-7C84-4A23-AF20-108A196E7D3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

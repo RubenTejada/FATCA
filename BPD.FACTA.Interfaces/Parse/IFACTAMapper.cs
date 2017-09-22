@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BPD.FACTA.Domain;
 
-namespace BPD.FACTA.Interfaces
+
+namespace BPD.FATCA.Interfaces
 {
-  public  interface IFACTAMapper
+  public  interface IFATCAMapper
     {
-        FACTARecord Map(string[] FACTAData);
+        FATCA_OECD Map(string[] FATCAData, ref FATCA_OECD FATCAObj);
     }
 }

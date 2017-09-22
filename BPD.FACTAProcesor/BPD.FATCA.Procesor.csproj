@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{82DA4D09-79CC-4C31-8CD2-CB0C23FE3D11}</ProjectGuid>
+    <ProjectGuid>{0A65360E-5019-42F4-BC41-8F284567925D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BPD.FACTA.Interfaces</RootNamespace>
-    <AssemblyName>BPD.FACTA.Interfaces</AssemblyName>
+    <RootNamespace>BPD.FATCA.Procesor</RootNamespace>
+    <AssemblyName>BPD.FATCA.Procesor</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,19 +39,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataProvider\IFACTADataProvider.cs" />
-    <Compile Include="FileGeneration\IFACTAFileGenerator.cs" />
-    <Compile Include="Parse\IFACTAMapper.cs" />
-    <Compile Include="Parse\IFACTAParser.cs" />
-    <Compile Include="Parse\IFACTAValidator.cs" />
+    <Compile Include="FileGeneration\XMLGenerator.cs" />
+    <Compile Include="Parse\SImpleFATCAValidator.cs" />
+    <Compile Include="Process\FACTAProcesor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\IAppConfiguration.cs" />
+    <Compile Include="Parse\SimpleFACTAParser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BPD.FACTA.Domain\BPD.FACTA.Domain.csproj">
+    <ProjectReference Include="..\BPD.FACTA.Domain\BPD.FATCA.Domain.csproj">
       <Project>{a212abfa-2b0c-4bad-8c86-f5b5eb82ac20}</Project>
-      <Name>BPD.FACTA.Domain</Name>
+      <Name>BPD.FATCA.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BPD.FACTA.Interfaces\BPD.FATCA.Interfaces.csproj">
+      <Project>{82da4d09-79cc-4c31-8cd2-cb0c23fe3d11}</Project>
+      <Name>BPD.FATCA.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataProvider\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

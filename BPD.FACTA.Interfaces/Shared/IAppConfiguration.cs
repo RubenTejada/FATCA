@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BPD.FACTA.Interfaces
+namespace BPD.FATCA.Interfaces
 {
     interface IAppConfiguration
     {
         string SourceFilesDirectory { get; set; }
         string DestinationFilesDirectory { get; set; }
         string XSDFilesDirectory { get; set; }
-
     }
 }

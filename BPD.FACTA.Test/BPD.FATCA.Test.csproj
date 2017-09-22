@@ -8,8 +8,8 @@
     <ProjectGuid>{25ECC5A9-6CB6-44B1-806F-C0A52F682388}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BPD.FACTA.Test</RootNamespace>
-    <AssemblyName>BPD.FACTA.Test</AssemblyName>
+    <RootNamespace>BPD.FATCA.Test</RootNamespace>
+    <AssemblyName>BPD.FATCA.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -75,17 +75,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BPD.FACTA.Domain\BPD.FACTA.Domain.csproj">
+    <ProjectReference Include="..\BPD.FACTA.Domain\BPD.FATCA.Domain.csproj">
       <Project>{a212abfa-2b0c-4bad-8c86-f5b5eb82ac20}</Project>
-      <Name>BPD.FACTA.Domain</Name>
+      <Name>BPD.FATCA.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BPD.FACTA.Interfaces\BPD.FACTA.Interfaces.csproj">
+    <ProjectReference Include="..\BPD.FACTA.Interfaces\BPD.FATCA.Interfaces.csproj">
       <Project>{82da4d09-79cc-4c31-8cd2-cb0c23fe3d11}</Project>
-      <Name>BPD.FACTA.Interfaces</Name>
+      <Name>BPD.FATCA.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BPD.FACTAProcesor\BPD.FACTA.Procesor.csproj">
+    <ProjectReference Include="..\BPD.FACTAProcesor\BPD.FATCA.Procesor.csproj">
       <Project>{0a65360e-5019-42f4-bc41-8f284567925d}</Project>
-      <Name>BPD.FACTA.Procesor</Name>
+      <Name>BPD.FATCA.Procesor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

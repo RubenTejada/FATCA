@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BPD.FACTA.Interfaces
+namespace BPD.FATCA.Interfaces
 {
-   public interface IFACTAValidator
+   public interface IFATCAValidator
     {
-        bool Validate(string[] FACTAData);
+        bool Validate(string[] FATCAData);
     }
 }

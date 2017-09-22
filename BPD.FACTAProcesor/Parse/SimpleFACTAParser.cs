@@ -3,50 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BPD.FACTA.Interfaces;
-using BPD.FACTA.Domain;
+using BPD.FATCA.Interfaces;
 
-namespace BPD.FACTA.Procesor
+
+namespace BPD.FATCA.Procesor
 {
-  public  class SimpleFACTAParser:IFACTAParser
+  public  class SimpleFATCAParser:IFATCAParser
     {
 
-      private readonly IFACTAValidator FACTAValidator;
-      private readonly IFACTAMapper FACTAMapper;
+      private readonly IFATCAValidator FATCAValidator;
+      private readonly IFATCAMapper FATCAMapper;
 
 
-        public SimpleFACTAParser(IFACTAValidator FACTAValidator, IFACTAMapper FACTAMapper)
+        public SimpleFATCAParser(IFATCAValidator FATCAValidator, IFATCAMapper FATCAMapper)
         {
-            if(FACTAValidator ==null)
-                throw new ArgumentNullException("IFACTAValidator null reference");
+            if(FATCAValidator ==null)
+                throw new ArgumentNullException("IFATCAValidator null reference");
 
-            if (FACTAMapper == null)
-                throw new ArgumentNullException("IFACTAMapper null reference");
+            if (FATCAMapper == null)
+                throw new ArgumentNullException("IFATCAMapper null reference");
 
 
-            this.FACTAValidator = FACTAValidator;
-            this.FACTAMapper = FACTAMapper;
+            this.FATCAValidator = FATCAValidator;
+            this.FATCAMapper = FATCAMapper;
         }
 
-        public IEnumerable<FACTARecord> ParseData(IEnumerable<string> FACTAData)
+        public FATCA_OECD ParseData(IEnumerable<string> FATCAData)
         {
-            
-            var result = new List<FACTARecord>();
+            FATCA_OECD FATCAObj = new FATCA_OECD();                    
+           
             int line = 0;
 
-            foreach (var item in FACTAData)
+            foreach (var item in FATCAData)
             {
                 line++;
 
                 var fields= item.Split(new char[] {','});
 
-                if (FACTAValidator.Validate(fields))
-                    result.Add(FACTAMapper.Map(fields));
+                if(FATCAValidator.Validate(fields))
+                {
+                    FATCAMapper.Map(fields, ref FATCAObj);
+                }
 
             }
 
-
-            return result;
+            return FATCAObj;
         }
     }
 }

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BPD.FACTA.Domain;
 
-namespace BPD.FACTA.Interfaces
+
+namespace BPD.FATCA.Interfaces
 {
-    public interface IFACTAFileGenerator
+    public interface IFATCAFileGenerator
     {
-       void GenerateFile(IEnumerable<FACTARecord> factaRecords);
+       void GenerateFile(FATCA_OECD FATCARecords);
     }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BPD.FACTA.Interfaces
+namespace BPD.FATCA.Interfaces
 {
-   public interface IFACTADataProvider
+   public interface IFATCADataProvider
    {
-       IEnumerable<String> GetFACTAData();
+       IEnumerable<String> GetFATCAData();
    }
 }

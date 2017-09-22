@@ -3,39 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BPD.FACTA.Domain;
-using BPD.FACTA.Interfaces;
 
-namespace BPD.FACTA.Procesor
+using BPD.FATCA.Interfaces;
+
+namespace BPD.FATCA.Procesor
 {
-    public class FACTAProcesor
+    public class FATCAProcesor
     {
 
-        private readonly IFACTADataProvider FACTADataProvider;
-        private readonly IFACTAParser FACTAParser;
-        private readonly IFACTAFileGenerator FACTAFileGenerator;
+        private readonly IFATCADataProvider FATCADataProvider;
+        private readonly IFATCAParser FATCAParser;
+        private readonly IFATCAFileGenerator FATCAFileGenerator;
 
-        public FACTAProcesor(IFACTADataProvider FACTADataProvider, IFACTAParser FACTAParser, IFACTAFileGenerator FACTAFileGenerator)
+        public FATCAProcesor(IFATCADataProvider FATCADataProvider, IFATCAParser FATCAParser, IFATCAFileGenerator FATCAFileGenerator)
         {
-            if (FACTADataProvider == null)
-                throw new ArgumentNullException("IFACTADataProvider null reference");
+            if (FATCADataProvider == null)
+                throw new ArgumentNullException("IFATCADataProvider null reference");
 
-            if (FACTAParser == null)
-                throw new ArgumentNullException("IFACTAParser null reference");
+            if (FATCAParser == null)
+                throw new ArgumentNullException("IFATCAParser null reference");
 
-            if (FACTAFileGenerator == null)
-                throw new ArgumentNullException("IFACTAFileGenerator null reference");
+            if (FATCAFileGenerator == null)
+                throw new ArgumentNullException("IFATCAFileGenerator null reference");
 
-            this.FACTADataProvider = FACTADataProvider;
-            this.FACTAParser = FACTAParser;
-            this.FACTAFileGenerator = FACTAFileGenerator;
+            this.FATCADataProvider = FATCADataProvider;
+            this.FATCAParser = FATCAParser;
+            this.FATCAFileGenerator = FATCAFileGenerator;
         }
 
-        public void ProcessFACTA()
+        public void ProcessFATCA()
         {
-            var FACTData = FACTADataProvider.GetFACTAData();
-            var FACTRecords = FACTAParser.ParseData(FACTData);
-            FACTAFileGenerator.GenerateFile(FACTRecords);
+            var FACTData = FATCADataProvider.GetFATCAData();
+            var FACTRecords = FATCAParser.ParseData(FACTData);
+            FATCAFileGenerator.GenerateFile(FACTRecords);
         }
 
     }
