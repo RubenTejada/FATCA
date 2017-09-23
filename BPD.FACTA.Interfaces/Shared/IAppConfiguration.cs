@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BPD.FATCA.Interfaces
 {
-    interface IAppConfiguration
+   public interface IAppConfiguration
     {
         string SourceFilesDirectory { get; set; }
         string DestinationFilesDirectory { get; set; }

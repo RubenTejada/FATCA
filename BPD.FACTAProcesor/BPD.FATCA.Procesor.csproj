@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -39,11 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileGeneration\XMLGenerator.cs" />
+    <Compile Include="DataProvider\CSVFATCADataProvider.cs" />
+    <Compile Include="DataProvider\TestFATCADataProvider.cs" />
+    <Compile Include="FileGeneration\XMLFATCAGenerator.cs" />
+    <Compile Include="Parse\SimpleFATCAMapper.cs" />
+    <Compile Include="Parse\SimpleFATCAParser.cs" />
     <Compile Include="Parse\SImpleFATCAValidator.cs" />
     <Compile Include="Process\FACTAProcesor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Parse\SimpleFACTAParser.cs" />
+    <Compile Include="Shared\XMLFATCAConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BPD.FACTA.Domain\BPD.FATCA.Domain.csproj">
@@ -55,9 +60,7 @@
       <Name>BPD.FATCA.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataProvider\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

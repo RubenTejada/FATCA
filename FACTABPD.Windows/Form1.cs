@@ -19,8 +19,10 @@ namespace FATCABPD.Windows
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            BPD.FATCA.Procesor.FileGeneration.FATCAXMLGenerator p = new BPD.FATCA.Procesor.FileGeneration.FATCAXMLGenerator();
-            p.GenerateFile(null);
+           
+
+
+
         }
     }
 }

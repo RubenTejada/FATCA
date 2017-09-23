@@ -9,6 +9,6 @@ namespace BPD.FATCA.Interfaces
 {
   public  interface IFATCAMapper
     {
-        FATCA_OECD Map(string[] FATCAData, ref FATCA_OECD FATCAObj);
+        void Map(string[] FATCAData, ref FATCA_OECD FATCAObj);
     }
 }

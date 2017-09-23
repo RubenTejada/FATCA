@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BPD.FATCA.Interfaces;
 
-namespace BPD.FATCA.Procesor.Parse
+namespace BPD.FATCA.Procesor
 {
-    class SImpleFATCAValidator : IFATCAValidator
+   public class SImpleFATCAValidator : IFATCAValidator
     {
         public SImpleFATCAValidator()
         {
