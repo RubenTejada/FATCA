@@ -7,22 +7,20 @@ using System.Threading.Tasks;
 using System.Configuration;
 
 
-namespace BPD.FATCA.Procesor.Shared
+namespace BPD.FATCA.Procesor
 {
-    //class XMLFATCAConfiguration : IAppConfiguration
-    //{
+   public class XMLFATCAConfiguration : IAppConfiguration
+    {        
 
-    //    //private readonly ConfigurationManager configuration;
-
-    //    //public XMLFATCAConfiguration()
-    //    //{
-    //    //    configuration = new ConfigurationManager();
+        public XMLFATCAConfiguration()
+        {
             
-    //    //}
+        }
 
-    //    //public string SourceFilesDirectory { }=> configuration.
+        public string SourceFilesDirectory{ get =>  ConfigurationManager.AppSettings["SourceFilesDirectory"];}
+        
+        public string DestinationFilesDirectory { get => ConfigurationManager.AppSettings["DestinationFilesDirectory"];}
 
-    //    //public string DestinationFilesDirectory { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    //    //public string XSDFilesDirectory { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    //}
+        public string XSDFilesDirectory { get => ConfigurationManager.AppSettings["XSDFilesDirectory"]; }
+    }
 }

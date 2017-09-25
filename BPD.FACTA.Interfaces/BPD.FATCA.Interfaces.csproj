@@ -49,8 +49,10 @@
     <Compile Include="Parse\IFACTAMapper.cs" />
     <Compile Include="Parse\IFACTAParser.cs" />
     <Compile Include="Parse\IFACTAValidator.cs" />
+    <Compile Include="Procesor\IFATCAProcesor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\IAppConfiguration.cs" />
+    <Compile Include="Shared\IApplicationLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BPD.FACTA.Domain\BPD.FATCA.Domain.csproj">

@@ -23,19 +23,21 @@ namespace FATCABPD.Windows
 
             //Registering types.
             Container container = new Container();
+            container.Register<IAppConfiguration, XMLFATCAConfiguration>();
+            container.Register<IApplicationLog, SessionApplicationLog>(Lifestyle.Singleton);
             container.Register<IFATCADataProvider, CSVFATCADataProvider>();
             container.Register<IFATCAParser, SimpleFATCAParser>();
             container.Register<IFATCAMapper, SimpleFATCAMapper>();
             container.Register<IFATCAValidator, SImpleFATCAValidator>();
             container.Register<IFATCAFileGenerator, XMLFATCAGenerator>();
+            container.Register<IFATCAProcesor, FATCAProcesor>();
             container.Register<FATCAProcesor>();
 
-            var Proceso = container.GetInstance<FATCAProcesor>();
-
-            Proceso.ProcessFATCA();
-
-
-            Application.Run(new Form1());
+            var proceso = container.GetInstance<IFATCAProcesor>();
+            var configuracion = container.GetInstance<IAppConfiguration>();
+            var applicationLog = container.GetInstance<IApplicationLog>();
+           
+            Application.Run(new FATCAGenerator(proceso,configuracion, applicationLog));
         }
     }
 }

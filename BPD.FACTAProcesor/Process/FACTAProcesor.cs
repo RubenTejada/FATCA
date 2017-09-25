@@ -8,14 +8,15 @@ using BPD.FATCA.Interfaces;
 
 namespace BPD.FATCA.Procesor
 {
-    public class FATCAProcesor
+    public class FATCAProcesor : IFATCAProcesor
     {
 
         private readonly IFATCADataProvider FATCADataProvider;
         private readonly IFATCAParser FATCAParser;
         private readonly IFATCAFileGenerator FATCAFileGenerator;
+        private readonly IApplicationLog applicationLog;
 
-        public FATCAProcesor(IFATCADataProvider FATCADataProvider, IFATCAParser FATCAParser, IFATCAFileGenerator FATCAFileGenerator)
+        public FATCAProcesor(IFATCADataProvider FATCADataProvider, IFATCAParser FATCAParser, IFATCAFileGenerator FATCAFileGenerator, IApplicationLog applicationLog)
         {
             if (FATCADataProvider == null)
                 throw new ArgumentNullException("IFATCADataProvider null reference");
@@ -29,13 +30,28 @@ namespace BPD.FATCA.Procesor
             this.FATCADataProvider = FATCADataProvider;
             this.FATCAParser = FATCAParser;
             this.FATCAFileGenerator = FATCAFileGenerator;
+            this.applicationLog = applicationLog;
         }
 
         public void ProcessFATCA()
         {
+            try
+            {
+           
             var FACTData = FATCADataProvider.GetFATCAData();
-            var FACTRecords = FATCAParser.ParseData(FACTData);
-            FATCAFileGenerator.GenerateFile(FACTRecords);
+
+            if (FACTData.Count() > 0)
+            {
+                var FACTRecords = FATCAParser.ParseData(FACTData);
+                FATCAFileGenerator.GenerateFile(FACTRecords);
+            }
+
+            }
+            catch (Exception ex)
+            {
+                applicationLog.LogError(ex, "Error al procesar archivo");
+            }
+
         }
 
     }

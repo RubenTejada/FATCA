@@ -8,8 +8,8 @@ namespace BPD.FATCA.Interfaces
 {
    public interface IAppConfiguration
     {
-        string SourceFilesDirectory { get; set; }
-        string DestinationFilesDirectory { get; set; }
-        string XSDFilesDirectory { get; set; }
+        string SourceFilesDirectory { get; }
+        string DestinationFilesDirectory { get;  }
+        string XSDFilesDirectory { get; }
     }
 }

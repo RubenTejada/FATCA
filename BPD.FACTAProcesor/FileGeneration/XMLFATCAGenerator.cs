@@ -1,5 +1,6 @@
 ﻿
 using BPD.FATCA.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,15 @@ namespace BPD.FATCA.Procesor
 {
     public class XMLFATCAGenerator : IFATCAFileGenerator
     {
+        private readonly IAppConfiguration appConfiguration;
+        private readonly IApplicationLog applicationLog;
+
+        public XMLFATCAGenerator(IAppConfiguration appConfiguration, IApplicationLog applicationLog)
+        {
+            this.appConfiguration = appConfiguration;
+            this.applicationLog = applicationLog;
+        }
+
         public void GenerateFile(FATCA_OECD FATCAObj)
         {
             XmlSerializer xser = new XmlSerializer(typeof(FATCA_OECD));
@@ -16,7 +26,7 @@ namespace BPD.FATCA.Procesor
             ns.Add("ftc", "urn:oecd:ties:fatca:v2");
             ns.Add("stf", "urn:oecd:ties:stf:v4");
             ns.Add("sfa", "urn:oecd:ties:stffatcatypes:v2");
-            ns.Add("iso", "urn: oecd: ties: isofatcatypes: v1");
+            ns.Add("iso", "urn:oecd:ties:isofatcatypes:v1");
             ns.Add("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
 
@@ -33,10 +43,15 @@ namespace BPD.FATCA.Procesor
 
                 FATCAObj.FATCA[0].ReportingGroup[0].Items = Reports.ToArray();
 
-                using (StreamWriter s = new StreamWriter(@"C:\FATCA\Accounts_Pool_Report.xml"))
+                string accountsPoolReportUrl = Path.Combine(appConfiguration.DestinationFilesDirectory, DateTime.Now.ToString("yyyyMMddHHmmss_") + "Accounts_Pool_Report.xml");
+
+                using (StreamWriter s = new StreamWriter(accountsPoolReportUrl))
                 {
                     xser.Serialize(s, FATCAObj, ns);
+
+                    applicationLog.LogMessage($"Archivo Generado con éxito: {accountsPoolReportUrl}");
                 }
+
 
             }
             if (NilReport.Count() > 0)
@@ -44,13 +59,16 @@ namespace BPD.FATCA.Procesor
                 Reports = NilReport;
 
                 FATCAObj.FATCA[0].ReportingGroup[0].Items = Reports.ToArray();
-                using (StreamWriter s = new StreamWriter(@"C:\FATCA\NilReport.xml"))
+
+                string NilReportUrl = Path.Combine(appConfiguration.DestinationFilesDirectory, DateTime.Now.ToString("yyyyMMddHHmmss_") + "NilReport.xml");
+
+                using (StreamWriter s = new StreamWriter(NilReportUrl))
                 {
                     xser.Serialize(s, FATCAObj, ns);
+
+                    applicationLog.LogMessage($"Archivo Generado con éxito: {NilReportUrl}");
                 }
             }
-
-
 
         }
     }

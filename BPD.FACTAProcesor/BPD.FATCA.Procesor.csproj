@@ -42,13 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataProvider\CSVFATCADataProvider.cs" />
-    <Compile Include="DataProvider\TestFATCADataProvider.cs" />
     <Compile Include="FileGeneration\XMLFATCAGenerator.cs" />
     <Compile Include="Parse\SimpleFATCAMapper.cs" />
     <Compile Include="Parse\SimpleFATCAParser.cs" />
     <Compile Include="Parse\SImpleFATCAValidator.cs" />
     <Compile Include="Process\FACTAProcesor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\SessionLog.cs" />
     <Compile Include="Shared\XMLFATCAConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
