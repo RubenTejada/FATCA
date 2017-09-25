@@ -92,14 +92,13 @@
       <Project>{82da4d09-79cc-4c31-8cd2-cb0c23fe3d11}</Project>
       <Name>BPD.FATCA.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BPD.FACTA.Test\BPD.FATCA.Test.csproj">
-      <Project>{25ecc5a9-6cb6-44b1-806f-c0a52f682388}</Project>
-      <Name>BPD.FATCA.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BPD.FACTAProcesor\BPD.FATCA.Procesor.csproj">
       <Project>{0a65360e-5019-42f4-bc41-8f284567925d}</Project>
       <Name>BPD.FATCA.Procesor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Popular.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
