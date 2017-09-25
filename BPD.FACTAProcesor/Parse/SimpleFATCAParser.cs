@@ -28,7 +28,7 @@ namespace BPD.FATCA.Procesor
             this.FATCAMapper = FATCAMapper;
         }
 
-        public FATCA_OECD ParseData(IEnumerable<string> FATCAData)
+        public FATCA_OECD ParseData(IEnumerable<string[]> FATCAData)
         {
             FATCA_OECD FATCAObj = new FATCA_OECD();                    
            
@@ -37,15 +37,15 @@ namespace BPD.FATCA.Procesor
             foreach (var item in FATCAData)
             {
                 line++;
+                
 
-                var fields= item.Split(new char[] {','});
-
-                if(FATCAValidator.Validate(fields))
+                if(FATCAValidator.Validate(item))
                 {
-                    FATCAMapper.Map(fields, ref FATCAObj);
+                    FATCAMapper.Map(item, ref FATCAObj);
                 }
 
             }
+         
 
             return FATCAObj;
         }

@@ -8,6 +8,6 @@ namespace BPD.FATCA.Interfaces
 {
    public interface IFATCADataProvider
    {
-       IEnumerable<String> GetFATCAData();
+       IEnumerable<String[]> GetFATCAData();
    }
 }

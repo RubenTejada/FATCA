@@ -9,6 +9,6 @@ namespace BPD.FATCA.Interfaces
 {
   public  interface IFATCAParser
     {
-        FATCA_OECD ParseData(IEnumerable<string> FATCAData);        
+        FATCA_OECD ParseData(IEnumerable<string[]> FATCAData);        
     }
 }

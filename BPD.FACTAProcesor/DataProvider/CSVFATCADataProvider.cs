@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic.FileIO;
 
 namespace BPD.FATCA.Procesor
 {
@@ -13,22 +14,32 @@ namespace BPD.FATCA.Procesor
 
         private readonly IAppConfiguration _appConfiguration;
 
-        public CSVFATCADataProvider(IAppConfiguration appConfiguration)
+        public CSVFATCADataProvider()
         {
-            _appConfiguration = appConfiguration;
+           
         }
 
 
         List<string> FATCAData = new List<string>();
 
-        public IEnumerable<string> GetFATCAData()
+        public IEnumerable<string[]> GetFATCAData()
         {
-            using (var reader = new StreamReader(@"C:\FATCA\A.csv"))
-            {                              
-                while (!reader.EndOfStream)
+            List<string[]> FATCAData = new List<string[]>();
+
+            var path = @"C:\FATCA\Total.csv"; 
+            using (TextFieldParser csvParser = new TextFieldParser(path))
+            {
+                csvParser.CommentTokens = new string[] { "#" };
+                csvParser.SetDelimiters(new string[] { "," });
+                csvParser.HasFieldsEnclosedInQuotes = true;
+
+               // Skip the row with the column names
+              // csvParser.ReadLine();
+
+                while (!csvParser.EndOfData)
                 {
-                    var line = reader.ReadLine();
-                    FATCAData.Add(line);                   
+                    // Read current line fields, pointer moves to the next line.                    
+                    FATCAData.Add(csvParser.ReadFields());
                 }
             }
 

@@ -10,11 +10,11 @@ namespace BPD.FATCA.Procesor
         public void Map(string[] FATCAData, ref FATCA_OECD FATCAObj)
         {
             //Mapeo de Version columna 0
-            FATCAObj.version = FATCAData[0];  //TODO: mover a configuracion
+            FATCAObj.version = "2.0";// FATCAData[0];  //TODO: mover a configuracion
 
 
             //MessageSpec
-            if (ColumnsContainsData(FATCAData, CoulumnRange(1, 10)))
+            if (ColumnsContainsData(FATCAData, CoulumnRange(1, 10)) && FATCAObj.MessageSpec==null)
             {
                 FATCAObj.MessageSpec = new MessageSpec_Type()
                 {
@@ -37,7 +37,7 @@ namespace BPD.FATCA.Procesor
             Fatca_Type CurrentFacta = FATCAObj.FATCA[0];
 
             //ReportingFI
-            if (ColumnsContainsData(FATCAData, CoulumnRange(11, 32)))
+            if (ColumnsContainsData(FATCAData, CoulumnRange(11, 32)) && CurrentFacta.ReportingFI==null)
             {
                 CurrentFacta.ReportingFI = new CorrectableReportOrganisation_Type();
                 CurrentFacta.ReportingFI.ResCountryCode = ParseToEnumArr<CountryCode_Type>(FATCAData[11]);
@@ -47,8 +47,11 @@ namespace BPD.FATCA.Procesor
                 {
                     CurrentFacta.ReportingFI.TIN = new TIN_Type[]{ new TIN_Type(){
                         Value=FATCAData[12],
-                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[13])
+                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[13]),
+                        issuedBySpecified= !String.IsNullOrWhiteSpace(FATCAData[13])
                     } };
+
+                    
                 }
 
                 //Name
@@ -68,13 +71,13 @@ namespace BPD.FATCA.Procesor
                     {
                        legalAddressType=ParseEnum<OECDLegalAddressType_EnumType>(FATCAData[16]),
                        CountryCode=ParseEnum<CountryCode_Type>(FATCAData[17]),
-                      AddressFree=FATCAData[18]
+                       Items=new string[]{ FATCAData[18] }                      
                     } };
 
                     //AddressFix
                     if (ColumnsContainsData(FATCAData, CoulumnRange(19, 27)))
                     {
-                        CurrentFacta.ReportingFI.Address[0].AddressFix = new AddressFix_Type()
+                       var AddressFix = new AddressFix_Type()
                         {
                             Street = FATCAData[19],
                             BuildingIdentifier = FATCAData[20],
@@ -86,6 +89,8 @@ namespace BPD.FATCA.Procesor
                             City = FATCAData[26],
                             CountrySubentity = FATCAData[27],
                         };
+
+                        CurrentFacta.ReportingFI.Address[0].Items = AppendToArray<object>(CurrentFacta.ReportingFI.Address[0].Items, AddressFix, true);
                     }
 
                 }
@@ -128,8 +133,9 @@ namespace BPD.FATCA.Procesor
                     {
                         currentReportingGroup.Sponsor.TIN = new TIN_Type[]{ new TIN_Type(){
                         Value=FATCAData[34],
-                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[35])
-                    } };
+                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[35]),
+                        issuedBySpecified= !String.IsNullOrWhiteSpace(FATCAData[35])
+                    } };                       
                     }
 
                     //Name
@@ -149,13 +155,13 @@ namespace BPD.FATCA.Procesor
                     {
                        legalAddressType=ParseEnum<OECDLegalAddressType_EnumType>(FATCAData[38]),
                        CountryCode=ParseEnum<CountryCode_Type>(FATCAData[39]),
-                      AddressFree=FATCAData[40]
+                       Items=new string[]{ FATCAData[40] }                      
                     } };
 
                         //AddressFix
                         if (ColumnsContainsData(FATCAData, CoulumnRange(41, 49)))
                         {
-                            currentReportingGroup.Sponsor.Address[0].AddressFix = new AddressFix_Type()
+                            var AddressFix = new AddressFix_Type()
                             {
                                 Street = FATCAData[41],
                                 BuildingIdentifier = FATCAData[42],
@@ -167,6 +173,8 @@ namespace BPD.FATCA.Procesor
                                 City = FATCAData[48],
                                 CountrySubentity = FATCAData[49],
                             };
+
+                            currentReportingGroup.Sponsor.Address[0].Items = AppendToArray<object>(currentReportingGroup.Sponsor.Address[0].Items, AddressFix, true);
                         }
 
                     }
@@ -200,8 +208,11 @@ namespace BPD.FATCA.Procesor
                     {
                         currentReportingGroup.Intermediary.TIN = new TIN_Type[]{ new TIN_Type(){
                         Value=FATCAData[56],
-                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[57])
+                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[57]),
+                        issuedBySpecified= !String.IsNullOrWhiteSpace(FATCAData[57])
                     } };
+
+
                     }
 
                     //Name
@@ -221,13 +232,13 @@ namespace BPD.FATCA.Procesor
                     {
                        legalAddressType=ParseEnum<OECDLegalAddressType_EnumType>(FATCAData[60]),
                        CountryCode=ParseEnum<CountryCode_Type>(FATCAData[61]),
-                      AddressFree=FATCAData[62]
+                        Items=new string[]{ FATCAData[62] }                      
                     } };
 
                         //AddressFix
                         if (ColumnsContainsData(FATCAData, CoulumnRange(63, 71)))
                         {
-                            currentReportingGroup.Intermediary.Address[0].AddressFix = new AddressFix_Type()
+                            var AddressFix = new AddressFix_Type()
                             {
                                 Street = FATCAData[63],
                                 BuildingIdentifier = FATCAData[64],
@@ -239,6 +250,7 @@ namespace BPD.FATCA.Procesor
                                 City = FATCAData[70],
                                 CountrySubentity = FATCAData[71],
                             };
+                            currentReportingGroup.Intermediary.Address[0].Items = AppendToArray<object>(currentReportingGroup.Intermediary.Address[0].Items, AddressFix, true);
                         }
 
                     }
@@ -260,31 +272,33 @@ namespace BPD.FATCA.Procesor
 
                 //NilReport
                 //DocSpec
-                if (ColumnsContainsData(FATCAData, CoulumnRange(77, 80)))
+                if (ColumnsContainsData(FATCAData, CoulumnRange(77, 81)))
                 {
-                    currentReportingGroup.NilReport = new CorrectableNilReport_Type();
+                    var NilReport = new CorrectableNilReport_Type();
 
-                    currentReportingGroup.NilReport.DocSpec = new DocSpec_Type()
+                    NilReport.DocSpec = new DocSpec_Type()
                     {
                         DocTypeIndic = ParseEnum<FatcaDocTypeIndic_EnumType>(FATCAData[77]),
                         DocRefId = FATCAData[78],
                         CorrMessageRefId = FATCAData[79],
                         CorrDocRefId = FATCAData[80],
                     };
+
+                    NilReport.NoAccountToReport = FATCAData[81].ToLower();
+
+                    currentReportingGroup.Items = AppendToArray<object>(currentReportingGroup.Items, NilReport);
                 }
 
-                if (currentReportingGroup.NilReport != null)
-                {
-                    currentReportingGroup.NilReport.NoAccountToReport = FATCAData[81];
-                }
+               
 
                 //AcountReport
-                if (ColumnsContainsData(FATCAData, CoulumnRange(82, 204)))
+                if (ColumnsContainsData(FATCAData, CoulumnRange(82, 204)) && !String.IsNullOrWhiteSpace(FATCAData[86]))//Solo generar si hay cuenta
                 {
 
                 
                     CorrectableAccountReport_Type CurrentAccountReport = new CorrectableAccountReport_Type();
-                    currentReportingGroup.AccountReport= AppendToArray<CorrectableAccountReport_Type>(currentReportingGroup.AccountReport,CurrentAccountReport);
+
+                    currentReportingGroup.Items= AppendToArray<object>(currentReportingGroup.Items, CurrentAccountReport);
 
                     //DocSpec
                     if (ColumnsContainsData(FATCAData, CoulumnRange(82, 85)))
@@ -300,18 +314,24 @@ namespace BPD.FATCA.Procesor
                         };
                     }
 
-                    //AccountNumber
-                    if (ColumnsContainsData(FATCAData, CoulumnRange(86, 87)))
+                    //AccountNumber // Todo lo relacionado con la cuenta se incluye o no si esta el numero de cuenta
+                    if (ColumnsContainsData(FATCAData, CoulumnRange(86, 88)))
                     {
                         CurrentAccountReport.AccountNumber = new FIAccountNumber_Type()
                         {
                             Value = FATCAData[86],
                             AcctNumberType = ParseEnum<AcctNumberType_EnumType>(FATCAData[87]),
                         };
+
+
+
+                        //AccountClosed
+                        CurrentAccountReport.AccountClosed = ParseBool(FATCAData[88]);
+
+
                     }
 
-                    //AccountClosed
-                    CurrentAccountReport.AccountClosed = ParseBool(FATCAData[88]);
+                    
 
                     //AccountHolder
                     if (ColumnsContainsData(FATCAData, CoulumnRange(89, 141)))
@@ -321,22 +341,24 @@ namespace BPD.FATCA.Procesor
                         //Individual
                         if (ColumnsContainsData(FATCAData, CoulumnRange(89, 123)))
                         {
-                            CurrentAccountReport.AccountHolder.Individual = new PersonParty_Type();
-                            CurrentAccountReport.AccountHolder.Individual.ResCountryCode = ParseToEnumArr<CountryCode_Type>(FATCAData[89]);
+                            var Individual = new PersonParty_Type();
+                            CurrentAccountReport.AccountHolder.Items = new object[] { Individual };
+                            Individual.ResCountryCode = ParseToEnumArr<CountryCode_Type>(FATCAData[89]);
 
                             //TIN
                             if (ColumnsContainsData(FATCAData, new int[] { 90, 91 }))
                             {
-                                CurrentAccountReport.AccountHolder.Individual.TIN = new TIN_Type[]{ new TIN_Type(){
+                                Individual.TIN = new TIN_Type[]{ new TIN_Type(){
                         Value=FATCAData[90],
-                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[91])
+                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[91]),
+                        issuedBySpecified= !String.IsNullOrWhiteSpace(FATCAData[91])
                     } };
                             }
 
                             //Name
                             if (ColumnsContainsData(FATCAData, CoulumnRange(92, 105)))
                             {
-                                CurrentAccountReport.AccountHolder.Individual.Name = new NamePerson_Type[] {new NamePerson_Type()
+                                Individual.Name = new NamePerson_Type[] {new NamePerson_Type()
                     {
 
                         nameType=ParseEnum<OECDNameType_EnumType>(FATCAData[92]),
@@ -345,55 +367,55 @@ namespace BPD.FATCA.Procesor
                     } };
 
                                 //FirstName
-                                CurrentAccountReport.AccountHolder.Individual.Name[0].FirstName = new NamePerson_TypeFirstName()
+                                Individual.Name[0].FirstName = new NamePerson_TypeFirstName()
                                 {
                                     Value = FATCAData[95],
-                                    xnlNameType = FATCAData[96]
+                                    xnlNameType = NullIfEmpty( FATCAData[96])
                                 };
 
 
                                 //MidleName
-                                CurrentAccountReport.AccountHolder.Individual.Name[0].MiddleName = new NamePerson_TypeMiddleName[] { new NamePerson_TypeMiddleName()
+                                Individual.Name[0].MiddleName = new NamePerson_TypeMiddleName[] { new NamePerson_TypeMiddleName()
                                 {
                                     Value=FATCAData[97],
-                                    xnlNameType=FATCAData[98]
+                                    xnlNameType=NullIfEmpty(FATCAData[98])
                                 } };
 
                                 //NamePrefix
-                                CurrentAccountReport.AccountHolder.Individual.Name[0].NamePrefix = new NamePerson_TypeNamePrefix()
+                                Individual.Name[0].NamePrefix = new NamePerson_TypeNamePrefix()
                                 {
                                     Value = FATCAData[99],
-                                    xnlNameType = FATCAData[100]
+                                    xnlNameType = NullIfEmpty(FATCAData[100])
                                 };
 
 
                                 //LastName
-                                CurrentAccountReport.AccountHolder.Individual.Name[0].LastName = new NamePerson_TypeLastName()
+                                Individual.Name[0].LastName = new NamePerson_TypeLastName()
                                 {
                                     Value = FATCAData[101],
-                                    xnlNameType = FATCAData[102]
+                                    xnlNameType = NullIfEmpty(FATCAData[102])
                                 };
 
-                                CurrentAccountReport.AccountHolder.Individual.Name[0].GenerationIdentifier = new string[] { FATCAData[103] };
-                                CurrentAccountReport.AccountHolder.Individual.Name[0].Suffix = new string[] { FATCAData[104] };
-                                CurrentAccountReport.AccountHolder.Individual.Name[0].GeneralSuffix = FATCAData[105];
+                                Individual.Name[0].GenerationIdentifier = new string[] { FATCAData[103] };
+                                Individual.Name[0].Suffix = new string[] { FATCAData[104] };
+                                Individual.Name[0].GeneralSuffix = FATCAData[105];
 
                             };
 
                             //Address
                             if (ColumnsContainsData(FATCAData, CoulumnRange(106, 117)))
                             {
-                                CurrentAccountReport.AccountHolder.Individual.Address = new Address_Type[] {new Address_Type()
+                                Individual.Address = new Address_Type[] {new Address_Type()
                     {
                        legalAddressType=ParseEnum<OECDLegalAddressType_EnumType>(FATCAData[106]),
                        CountryCode=ParseEnum<CountryCode_Type>(FATCAData[107]),
-                      AddressFree=FATCAData[108]
+                      Items=new string[]{FATCAData[108] }
                     } };
 
                                 //AddressFix
                                 if (ColumnsContainsData(FATCAData, CoulumnRange(109, 117)))
                                 {
-                                    CurrentAccountReport.AccountHolder.Individual.Address[0].AddressFix = new AddressFix_Type()
+                                    var AddressFix = new AddressFix_Type()
                                     {
                                         Street = FATCAData[109],
                                         BuildingIdentifier = FATCAData[110],
@@ -405,17 +427,19 @@ namespace BPD.FATCA.Procesor
                                         City = FATCAData[116],
                                         CountrySubentity = FATCAData[117],
                                     };
+
+                                    Individual.Address[0].Items = AppendToArray<object>(Individual.Address[0].Items, AddressFix, true);
                                 }
 
                             }
 
                             //Natioality
-                            CurrentAccountReport.AccountHolder.Individual.Nationality = ParseToEnumArr<CountryCode_Type>(FATCAData[118]);
+                            Individual.Nationality = ParseToEnumArr<CountryCode_Type>(FATCAData[118]);
 
                             //BirdInfo
                             if (ColumnsContainsData(FATCAData, CoulumnRange(119, 123)))
                             {
-                                CurrentAccountReport.AccountHolder.Individual.BirthInfo = new PersonParty_TypeBirthInfo()
+                                Individual.BirthInfo = new PersonParty_TypeBirthInfo()
                                 {
                                     BirthDate = ParseDate(FATCAData[119]),
                                     City = FATCAData[120],
@@ -425,11 +449,14 @@ namespace BPD.FATCA.Procesor
                                 //CountryInfo
                                 if (ColumnsContainsData(FATCAData, CoulumnRange(122, 123)))
                                 {
-                                    CurrentAccountReport.AccountHolder.Individual.BirthInfo.CountryInfo = new PersonParty_TypeBirthInfoCountryInfo()
-                                    {
-                                        CountryCode = ParseEnum<CountryCode_Type>(FATCAData[122]),
-                                        FormerCountryName = FATCAData[123]
-                                    };
+                                    Individual.BirthInfo.CountryInfo = new PersonParty_TypeBirthInfoCountryInfo();
+
+                                    if (!String.IsNullOrEmpty(FATCAData[122]))
+                                        Individual.BirthInfo.CountryInfo.Item = ParseEnum<CountryCode_Type>(FATCAData[122]);
+                                    else
+                                        Individual.BirthInfo.CountryInfo.Item = FATCAData[123];
+
+
                                 }
                             }
 
@@ -438,22 +465,25 @@ namespace BPD.FATCA.Procesor
                         //Organisation
                         if (ColumnsContainsData(FATCAData, CoulumnRange(124, 140)))
                         {
-                            CurrentAccountReport.AccountHolder.Organisation = new OrganisationParty_Type();
-                            CurrentAccountReport.AccountHolder.Organisation.ResCountryCode = ParseToEnumArr<CountryCode_Type>(FATCAData[124]);
+                            var Organisation = new OrganisationParty_Type();                            
+                            CurrentAccountReport.AccountHolder.Items = new object[] { Organisation };
+
+                            Organisation.ResCountryCode = ParseToEnumArr<CountryCode_Type>(FATCAData[124]);
 
                             //TIN
                             if (ColumnsContainsData(FATCAData, new int[] { 125, 126 }))
                             {
-                                CurrentAccountReport.AccountHolder.Organisation.TIN = new TIN_Type[]{ new TIN_Type(){
+                                Organisation.TIN = new TIN_Type[]{ new TIN_Type(){
                         Value=FATCAData[125],
-                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[126])
+                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[126]),
+                        issuedBySpecified= !String.IsNullOrWhiteSpace(FATCAData[126])
                     } };
                             }
 
                             //Name
                             if (ColumnsContainsData(FATCAData, new int[] { 127, 128 }))
                             {
-                                CurrentAccountReport.AccountHolder.Organisation.Name = new NameOrganisation_Type[] {new NameOrganisation_Type()
+                                Organisation.Name = new NameOrganisation_Type[] {new NameOrganisation_Type()
                     {
                                     Value=FATCAData[127],
                         nameType=ParseEnum<OECDNameType_EnumType>(FATCAData[128]),
@@ -465,17 +495,17 @@ namespace BPD.FATCA.Procesor
                             //Address
                             if (ColumnsContainsData(FATCAData, CoulumnRange(129, 140)))
                             {
-                                CurrentAccountReport.AccountHolder.Organisation.Address = new Address_Type[] {new Address_Type()
+                                Organisation.Address = new Address_Type[] {new Address_Type()
                     {
                        legalAddressType=ParseEnum<OECDLegalAddressType_EnumType>(FATCAData[129]),
                        CountryCode=ParseEnum<CountryCode_Type>(FATCAData[130]),
-                      AddressFree=FATCAData[131]
+                      Items= new string[]{FATCAData[131] }
                     } };
 
                                 //AddressFix
                                 if (ColumnsContainsData(FATCAData, CoulumnRange(132, 140)))
                                 {
-                                    CurrentAccountReport.AccountHolder.Organisation.Address[0].AddressFix = new AddressFix_Type()
+                                    var AddressFix = new AddressFix_Type()
                                     {
                                         Street = FATCAData[132],
                                         BuildingIdentifier = FATCAData[133],
@@ -487,12 +517,14 @@ namespace BPD.FATCA.Procesor
                                         City = FATCAData[139],
                                         CountrySubentity = FATCAData[140],
                                     };
+
+                                    Organisation.Address[0].Items = AppendToArray<object>(Organisation.Address[0].Items, AddressFix, true);
                                 }
 
                             }
-                        }
 
-                        CurrentAccountReport.AccountHolder.AcctHolderType = ParseEnum<FatcaAcctHolderType_EnumType>(FATCAData[141]);
+                            CurrentAccountReport.AccountHolder.Items = AppendToArray<object>(CurrentAccountReport.AccountHolder.Items, ParseEnum<FatcaAcctHolderType_EnumType>(FATCAData[141]));
+                        }                                             
 
                     }
 
@@ -506,22 +538,24 @@ namespace BPD.FATCA.Procesor
                         if (ColumnsContainsData(FATCAData, CoulumnRange(142, 176)))
                         {
 
-                            CurrentAccountReport.SubstantialOwner[0].Individual = new PersonParty_Type();
-                            CurrentAccountReport.SubstantialOwner[0].Individual.ResCountryCode = ParseToEnumArr<CountryCode_Type>(FATCAData[142]);
+                            var Individual = new PersonParty_Type();
+                            CurrentAccountReport.SubstantialOwner[0].Item = Individual;
+                            Individual.ResCountryCode = ParseToEnumArr<CountryCode_Type>(FATCAData[142]);
 
                             //TIN
                             if (ColumnsContainsData(FATCAData, new int[] { 143, 144 }))
                             {
-                                CurrentAccountReport.SubstantialOwner[0].Individual.TIN = new TIN_Type[]{ new TIN_Type(){
+                                Individual.TIN = new TIN_Type[]{ new TIN_Type(){
                         Value=FATCAData[143],
-                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[144])
+                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[144]),
+                        issuedBySpecified= !String.IsNullOrWhiteSpace(FATCAData[144])
                     } };
                             }
 
                             //Name
                             if (ColumnsContainsData(FATCAData, CoulumnRange(145, 158)))
                             {
-                                CurrentAccountReport.SubstantialOwner[0].Individual.Name = new NamePerson_Type[] {new NamePerson_Type()
+                                Individual.Name = new NamePerson_Type[] {new NamePerson_Type()
                     {
 
                         nameType=ParseEnum<OECDNameType_EnumType>(FATCAData[145]),
@@ -530,55 +564,55 @@ namespace BPD.FATCA.Procesor
                     } };
 
                                 //FirstName
-                                CurrentAccountReport.SubstantialOwner[0].Individual.Name[0].FirstName = new NamePerson_TypeFirstName()
+                                Individual.Name[0].FirstName = new NamePerson_TypeFirstName()
                                 {
                                     Value = FATCAData[148],
-                                    xnlNameType = FATCAData[149]
+                                    xnlNameType = NullIfEmpty(FATCAData[149])
                                 };
 
 
                                 //MidleName
-                                CurrentAccountReport.SubstantialOwner[0].Individual.Name[0].MiddleName = new NamePerson_TypeMiddleName[] { new NamePerson_TypeMiddleName()
+                                Individual.Name[0].MiddleName = new NamePerson_TypeMiddleName[] { new NamePerson_TypeMiddleName()
                                 {
                                     Value=FATCAData[150],
-                                    xnlNameType=FATCAData[151]
+                                    xnlNameType=NullIfEmpty(FATCAData[151])
                                 } };
 
                                 //NamePrefix
-                                CurrentAccountReport.SubstantialOwner[0].Individual.Name[0].NamePrefix = new NamePerson_TypeNamePrefix()
+                                Individual.Name[0].NamePrefix = new NamePerson_TypeNamePrefix()
                                 {
                                     Value = FATCAData[152],
-                                    xnlNameType = FATCAData[153]
+                                    xnlNameType = NullIfEmpty(FATCAData[153])
                                 };
 
 
                                 //LastName
-                                CurrentAccountReport.SubstantialOwner[0].Individual.Name[0].LastName = new NamePerson_TypeLastName()
+                                Individual.Name[0].LastName = new NamePerson_TypeLastName()
                                 {
                                     Value = FATCAData[154],
-                                    xnlNameType = FATCAData[155]
+                                    xnlNameType = NullIfEmpty(FATCAData[155])
                                 };
 
-                                CurrentAccountReport.SubstantialOwner[0].Individual.Name[0].GenerationIdentifier = new string[] { FATCAData[156] };
-                                CurrentAccountReport.SubstantialOwner[0].Individual.Name[0].Suffix = new string[] { FATCAData[157] };
-                                CurrentAccountReport.SubstantialOwner[0].Individual.Name[0].GeneralSuffix = FATCAData[158];
+                                Individual.Name[0].GenerationIdentifier = new string[] { FATCAData[156] };
+                                Individual.Name[0].Suffix = new string[] { FATCAData[157] };
+                                Individual.Name[0].GeneralSuffix = FATCAData[158];
 
                             };
 
                             //Address
                             if (ColumnsContainsData(FATCAData, CoulumnRange(159, 170)))
                             {
-                                CurrentAccountReport.SubstantialOwner[0].Individual.Address = new Address_Type[] {new Address_Type()
+                                Individual.Address = new Address_Type[] {new Address_Type()
                     {
                        legalAddressType=ParseEnum<OECDLegalAddressType_EnumType>(FATCAData[159]),
                        CountryCode=ParseEnum<CountryCode_Type>(FATCAData[160]),
-                      AddressFree=FATCAData[161]
+                       Items= new string[]{ FATCAData[161] }                      
                     } };
 
                                 //AddressFix
                                 if (ColumnsContainsData(FATCAData, CoulumnRange(162, 170)))
                                 {
-                                    CurrentAccountReport.SubstantialOwner[0].Individual.Address[0].AddressFix = new AddressFix_Type()
+                                  var AddressFix = new AddressFix_Type()
                                     {
                                         Street = FATCAData[162],
                                         BuildingIdentifier = FATCAData[163],
@@ -590,17 +624,19 @@ namespace BPD.FATCA.Procesor
                                         City = FATCAData[169],
                                         CountrySubentity = FATCAData[170],
                                     };
+
+                                    Individual.Address[0].Items = AppendToArray<object>(Individual.Address[0].Items, AddressFix, true);
                                 }
 
                             }
 
                             //Natioality
-                            CurrentAccountReport.SubstantialOwner[0].Individual.Nationality = ParseToEnumArr<CountryCode_Type>(FATCAData[171]);
+                            Individual.Nationality = ParseToEnumArr<CountryCode_Type>(FATCAData[171]);
 
                             //BirdInfo
                             if (ColumnsContainsData(FATCAData, CoulumnRange(172, 176)))
                             {
-                                CurrentAccountReport.SubstantialOwner[0].Individual.BirthInfo = new PersonParty_TypeBirthInfo()
+                                Individual.BirthInfo = new PersonParty_TypeBirthInfo()
                                 {
                                     BirthDate = ParseDate(FATCAData[172]),
                                     City = FATCAData[173],
@@ -610,11 +646,14 @@ namespace BPD.FATCA.Procesor
                                 //CountryInfo
                                 if (ColumnsContainsData(FATCAData, CoulumnRange(175, 176)))
                                 {
-                                    CurrentAccountReport.SubstantialOwner[0].Individual.BirthInfo.CountryInfo = new PersonParty_TypeBirthInfoCountryInfo()
-                                    {
-                                        CountryCode = ParseEnum<CountryCode_Type>(FATCAData[175]),
-                                        FormerCountryName = FATCAData[176]
-                                    };
+                                    Individual.BirthInfo.CountryInfo = new PersonParty_TypeBirthInfoCountryInfo();
+
+                                    if(!String.IsNullOrEmpty(FATCAData[175]))
+                                    Individual.BirthInfo.CountryInfo.Item = ParseEnum<CountryCode_Type>(FATCAData[175]);
+                                    else
+                                    Individual.BirthInfo.CountryInfo.Item = FATCAData[176];
+                                        
+                                    
                                 }
                             }
 
@@ -623,22 +662,24 @@ namespace BPD.FATCA.Procesor
                         //Organisation
                         if (ColumnsContainsData(FATCAData, CoulumnRange(177, 193)))
                         {
-                            CurrentAccountReport.SubstantialOwner[0].Organisation = new OrganisationParty_Type();
-                            CurrentAccountReport.SubstantialOwner[0].Organisation.ResCountryCode = ParseToEnumArr<CountryCode_Type>(FATCAData[177]);
+                           var Organisation = new OrganisationParty_Type();
+                           CurrentAccountReport.SubstantialOwner[0].Item =  Organisation;
+                           Organisation.ResCountryCode = ParseToEnumArr<CountryCode_Type>(FATCAData[177]);
 
                             //TIN
                             if (ColumnsContainsData(FATCAData, new int[] { 178, 179 }))
                             {
-                                CurrentAccountReport.SubstantialOwner[0].Organisation.TIN = new TIN_Type[]{ new TIN_Type(){
+                                Organisation.TIN = new TIN_Type[]{ new TIN_Type(){
                         Value=FATCAData[178],
-                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[179])
+                        issuedBy=ParseEnum<CountryCode_Type>(FATCAData[179]),
+                        issuedBySpecified= !String.IsNullOrWhiteSpace(FATCAData[179])
                     } };
                             }
 
                             //Name
                             if (ColumnsContainsData(FATCAData, new int[] { 180, 181 }))
                             {
-                                CurrentAccountReport.SubstantialOwner[0].Organisation.Name = new NameOrganisation_Type[] {new NameOrganisation_Type()
+                                Organisation.Name = new NameOrganisation_Type[] {new NameOrganisation_Type()
                     {
                                     Value=FATCAData[180],
                         nameType=ParseEnum<OECDNameType_EnumType>(FATCAData[181]),
@@ -650,17 +691,17 @@ namespace BPD.FATCA.Procesor
                             //Address
                             if (ColumnsContainsData(FATCAData, CoulumnRange(182, 193)))
                             {
-                                CurrentAccountReport.SubstantialOwner[0].Organisation.Address = new Address_Type[] {new Address_Type()
+                                Organisation.Address = new Address_Type[] {new Address_Type()
                     {
                        legalAddressType=ParseEnum<OECDLegalAddressType_EnumType>(FATCAData[182]),
                        CountryCode=ParseEnum<CountryCode_Type>(FATCAData[183]),
-                      AddressFree=FATCAData[184]
+                       Items= new string[]{ FATCAData[184] }
                     } };
 
                                 //AddressFix
                                 if (ColumnsContainsData(FATCAData, CoulumnRange(185, 193)))
                                 {
-                                    CurrentAccountReport.SubstantialOwner[0].Organisation.Address[0].AddressFix = new AddressFix_Type()
+                                    var AddressFix = new AddressFix_Type()
                                     {
                                         Street = FATCAData[185],
                                         BuildingIdentifier = FATCAData[186],
@@ -672,6 +713,8 @@ namespace BPD.FATCA.Procesor
                                         City = FATCAData[192],
                                         CountrySubentity = FATCAData[193],
                                     };
+
+                                    Organisation.Address[0].Items = AppendToArray<object>(Organisation.Address[0].Items, AddressFix, true);
                                 }
 
                             }
@@ -742,7 +785,7 @@ namespace BPD.FATCA.Procesor
                     
                     var CurrentPoolReport=new CorrectablePoolReport_Type();
 
-                    currentReportingGroup.PoolReport = AppendToArray<CorrectablePoolReport_Type>(currentReportingGroup.PoolReport,CurrentPoolReport);
+                    currentReportingGroup.Items = AppendToArray<object>(currentReportingGroup.Items, CurrentPoolReport);
 
                     CurrentPoolReport.DocSpec = new DocSpec_Type()
                     {
@@ -812,11 +855,14 @@ namespace BPD.FATCA.Procesor
         /// <param name="currentArr">Array to be use</param>
         /// <param name="item">Item to be added</param>
         /// <returns>Array with the item added</returns>
-        T[] AppendToArray<T>(IEnumerable<T> currentArr, T item)
+        T[] AppendToArray<T>(IEnumerable<T> currentArr, T item, bool insertAtBegining=false)
         {
             T[] appendArr = new T[] { item };
             if (currentArr == null)
                 return appendArr;
+            else
+                if(insertAtBegining)
+                return appendArr.Concat(currentArr).ToArray();
             else
                 return currentArr.Concat(appendArr).ToArray();
         }
@@ -827,6 +873,14 @@ namespace BPD.FATCA.Procesor
             return Enumerable.Range(from, to - from+1);
         }
 
+
+        String NullIfEmpty(string value)
+        {
+            if (String.IsNullOrWhiteSpace(value))
+                return null;
+            else
+                return value;
+        }
 
         
 

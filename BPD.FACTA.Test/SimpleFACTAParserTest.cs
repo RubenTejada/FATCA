@@ -53,7 +53,7 @@ public class SimpleFATCAParserTest
 
     [Theory]
     [MemberData("FATCAData")]
-    public void Method_ParseData_Must_Return_Same_Count(List<string> FATCAData)
+    public void Method_ParseData_Must_Return_Same_Count(List<string[]> FATCAData)
     {
 
         //Arrange
