@@ -827,8 +827,7 @@ namespace BPD.FATCA.Procesor
 
         DateTime ParseDate(string datetime)
         {
-            DateTime result = DateTime.MinValue;
-            DateTime.TryParse(datetime, out result);
+            DateTime result = DateTime.Parse(datetime);
             return result;
         }
 
