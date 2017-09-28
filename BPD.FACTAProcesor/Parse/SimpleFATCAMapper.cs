@@ -882,7 +882,12 @@ namespace BPD.FATCA.Procesor
         }
 
         
-
+        /// <summary>
+        /// Determine if the columns indicated in the indexes parameters have information from the CSV
+        /// </summary>
+        /// <param name="FATCAData"></param>
+        /// <param name="indexes"></param>
+        /// <returns></returns>
         private  bool ColumnsContainsData(string[] FATCAData,IEnumerable<int> indexes)
         {
             return String.Join(String.Empty, FATCAData.Where((d, i) => indexes.Contains(i))).Length > 0;
