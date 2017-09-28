@@ -39,9 +39,9 @@ using BPD.FATCA.Procesor;
     {
         //Arrange
         var mockDataProvider = new Mock<IFATCADataProvider>();
-        var mockFATCAParser = new Mock<IFATCAParser>();        
+        var mockFATCAParser = new Mock<IFATCAParser>(); 
 
-        //Assert
+        //Assert 
        // Assert.Throws<ArgumentNullException>(() => new FATCAProcesor(mockDataProvider.Object, mockFATCAParser.Object, null));
 
     }
