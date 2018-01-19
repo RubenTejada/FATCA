@@ -8,5 +8,6 @@ namespace BPD.FATCA.Test
 {
     class TestGuit
     {
+        public int Ind { get; set; }
     }
 }
